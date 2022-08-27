@@ -1,0 +1,7 @@
+.element__group{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+}

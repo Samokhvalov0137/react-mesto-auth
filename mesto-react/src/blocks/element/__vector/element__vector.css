@@ -1,0 +1,14 @@
+.element__vector{
+  padding: 0;
+    border: none;
+    background: no-repeat url(../../../images/Vector.svg);
+    width: 22px;
+    height: 19px;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+  
+  .element__vector:hover{
+    opacity: 0.5;
+    transition: 0.2s linear;
+    }

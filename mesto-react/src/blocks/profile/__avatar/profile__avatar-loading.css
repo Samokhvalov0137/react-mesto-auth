@@ -1,0 +1,4 @@
+.profile__avatar-loading{
+    animation: 1s linear 0s normal none infinite running rotation;
+    background: white no-repeat center url(../../../images/loader.svg);
+}
