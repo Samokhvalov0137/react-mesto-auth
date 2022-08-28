@@ -3,7 +3,6 @@ import Card from "../Card";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import React from "react";
 
-
 function Main({
   onEditProfile,
   onAddPlace,

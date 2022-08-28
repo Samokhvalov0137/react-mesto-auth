@@ -10,10 +10,3 @@
     opacity: 0.6;
   } 
 
-  @media screen and (max-width: 620px) {
-    .header__link {
-      display: flex;
-      flex-direction: column;
-      font-size: 14px;
-    }
-}

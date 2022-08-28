@@ -25,7 +25,7 @@ function FormRegLog({
 
   return (
     <main className="content content_form">
-      <form noValidate onSubmit={handleSubmit} className="auth_form">
+      <form onSubmit={handleSubmit} className="auth_form">
         <h1 className="auth_form-title">{titleForm}</h1>
         <input
           value={email}

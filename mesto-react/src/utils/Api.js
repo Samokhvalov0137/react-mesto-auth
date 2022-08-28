@@ -28,55 +28,46 @@ export class Api {
       return res.json();
     }
     return Promise.reject(`Ошибка: ${res.status}`);
-    }
-    
+  }
 
+  signUp(email, password) {
+    return fetch(`${this._authBaseUrl}/signup`, {
+      method: "POST",
+      headers: this._authHeaders,
+      body: JSON.stringify({
+        password: password,
+        email: email,
+      }),
+    }).then(this._checkResponse);
+  }
 
+  signIn(email, password) {
+    return fetch(`${this._authBaseUrl}/signin`, {
+      method: "POST",
+      headers: this._authHeaders,
+      body: JSON.stringify({
+        password: password,
+        email: email,
+      }),
+    })
+      .then(this._checkResponse)
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem("jwt", data.token);
+          return data;
+        }
+      });
+  }
 
-
-    signUp(email, password) {
-      return fetch(`${this._authBaseUrl}/signup`, {
-        method: "POST",
-        headers: this._authHeaders,
-        body: JSON.stringify({
-          password: password,
-          email: email,
-        }),
-      }).then(this._checkResponse);
-    }
-
-    signIn(email, password) {
-      return fetch(`${this._authBaseUrl}/signin`, {
-        method: "POST",
-        headers: this._authHeaders,
-        body: JSON.stringify({
-          password: password,
-          email: email,
-        }),
-      })
-        .then(this._checkResponse)
-        .then((data) => {
-          if (data.token) {
-            localStorage.setItem("jwt", data.token);
-            return data;
-          }
-        });
-    }
-  
-    identificationUser(jwt) {
-      return fetch(`${this._authBaseUrl}/users/me`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${jwt}`,
-        },
-      }).then(this._checkResponse);
-    }
-
-    
-
-
-
+  identificationUser(jwt) {
+    return fetch(`${this._authBaseUrl}/users/me`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+    }).then(this._checkResponse);
+  }
 
   getUserInfo() {
     return this._getMethod("/users/me");
@@ -102,14 +93,13 @@ export class Api {
     return this._patchPostMethod(`/cards/${cardId}`, "DELETE", {});
   }
 
-  toggleLike(cardId, isLiked){
+  toggleLike(cardId, isLiked) {
     if (!isLiked) {
       return this._patchPostMethod(`/cards/${cardId}/likes`, "PUT", {});
     } else {
       return this._patchPostMethod(`/cards/${cardId}/likes`, "DELETE", {});
     }
   }
-
 
   // setLike(cardId) {
   //   return this._patchPostMethod(`/cards/${cardId}/likes`, "PUT", {});
@@ -118,12 +108,11 @@ export class Api {
   // deleteLike(cardId) {
   //   return this._patchPostMethod(`/cards/${cardId}/likes`, "DELETE", {});
   // }
-
 }
 
 export const api = new Api({
-    baseUrl: "https://mesto.nomoreparties.co/v1/cohort-44",
-    headers: {
+  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-44",
+  headers: {
     authorization: "9d5eb0d3-fb55-4a88-9fe1-f4f0f3428bab",
     "Content-Type": "application/json",
   },
@@ -131,7 +120,7 @@ export const api = new Api({
   authHeaders: {
     "Content-Type": "application/json",
   },
-})
+});
 
 // {
 //   baseUrl: "https://mesto.nomoreparties.co/v1/cohort-44",

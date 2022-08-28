@@ -11,7 +11,6 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
     onUpdateAvatar({
       avatar: avaRef.current.value,
     });
-
   }
 
   return (
@@ -26,7 +25,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
           <label className="form__field">
             <input
               ref={avaRef}
-              defaultValue={''}
+              defaultValue={""}
               className="form__input"
               id="input_avatar_link"
               type="url"

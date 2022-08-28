@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {Route, Switch, Link, useHistory} from "react-router-dom";
+import { Route, Switch, Link, useHistory } from "react-router-dom";
 import { api } from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import React from "react";
@@ -16,7 +16,6 @@ import FormRegLog from "./FormRegLog";
 import Content from "./Content";
 import ProtectedRoute from "./ProtectedRoute";
 
-
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isInfoTooltip, setIsInfoTooltip] = useState({
@@ -32,7 +31,8 @@ function App() {
   const [currentUser, setCurrentUser] = useState({
     name: "Name",
     about: "About youself",
-    avatar: "https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg",
+    avatar:
+      "https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg",
   });
 
   const [cards, setCards] = useState([]);
@@ -52,7 +52,7 @@ function App() {
           console.log(`getCardsArray ошибка - ${err}`);
         });
 
-        api
+      api
         .getUserInfo()
         .then((user) => {
           setCurrentUser({
@@ -69,7 +69,7 @@ function App() {
   }, [loggedIn]);
 
   useEffect(() => {
-      api
+    api
       .identificationUser(token)
       .then((data) => {
         setEmail(data.data.email);
@@ -86,13 +86,12 @@ function App() {
     localStorage.setItem("jwt", "");
   }
 
-
   function handleRegistrationUser(email, password) {
     api
       .signUp(email, password)
       .then(() => {
         setIsInfoTooltip({ isOpen: true, error: false });
-        history.push('./sing-in')
+        history.push("./sing-in");
       })
       .catch((err) => {
         setIsInfoTooltip({ isOpen: true, error: true });
@@ -109,10 +108,10 @@ function App() {
         history.push("/");
       })
       .catch((err) => {
+        setIsInfoTooltip({ isOpen: true, error: true });
         console.log(`singIn ошибка - ${err}`);
       });
   }
-
 
   function handleDeleteCard(removedCard) {
     api
@@ -214,12 +213,11 @@ function App() {
     setIsConfirmPopupOpen(false);
     setIsImagePopupOpen(false);
     setIsInfoTooltip({ isOpen: false, error: false });
-
   }
 
   return (
     <div className="root">
-     <CurrentUserContext.Provider value={currentUser}>
+      <CurrentUserContext.Provider value={currentUser}>
         <Header email={email} handleExitProfile={handleExitProfile} />
         <Switch>
           <Route path="/sign-in">
@@ -230,7 +228,6 @@ function App() {
             />
           </Route>
 
-
           <Route path="/sign-up">
             <FormRegLog
               onSubmit={handleRegistrationUser}
@@ -240,77 +237,75 @@ function App() {
                 <Link to="/sing-up" className="auth_form-link">
                   Уже зарегистрированы? Войти
                 </Link>
-            }
-          />
+              }
+            />
           </Route>
 
           <ProtectedRoute
-          path="/"
-          handleExitProfile={handleExitProfile}
-          loggedIn={loggedIn}
-          component={Content}
-          currentUser={currentUser}
-          email={email}
-          handleCardClick={handleCardClick}
-          handleEditProfileClick={handleEditProfileClick}
-          handleAddPlaceClick={handleAddPlaceClick}
-          handleEditAvatarClick={handleEditAvatarClick}
-          cards={cards}
-          handleCardLike={handleCardLike}
-          handleDeleteCard={handleDeleteCard}
-          isEditProfilePopupOpen={isEditProfilePopupOpen}
-          closeAllPopups={closeAllPopups}
-          handleUpdateUser={handleUpdateUser}
-          isEditAvatarPopupOpen={isEditAvatarPopupOpen}
-          handleUpdateAvatar={handleUpdateAvatar}
-          isAddPlacePopupOpen={isAddPlacePopupOpen}
-          handleAddPlace={handleAddPlace}
-          isConfirmPopupOpen={isConfirmPopupOpen}
-          selectedCard={selectedCard}
-          isImagePopupOpen={isImagePopupOpen}
+            path="/"
+            handleExitProfile={handleExitProfile}
+            loggedIn={loggedIn}
+            component={Content}
+            currentUser={currentUser}
+            email={email}
+            handleCardClick={handleCardClick}
+            handleEditProfileClick={handleEditProfileClick}
+            handleAddPlaceClick={handleAddPlaceClick}
+            handleEditAvatarClick={handleEditAvatarClick}
+            cards={cards}
+            handleCardLike={handleCardLike}
+            handleDeleteCard={handleDeleteCard}
+            isEditProfilePopupOpen={isEditProfilePopupOpen}
+            closeAllPopups={closeAllPopups}
+            handleUpdateUser={handleUpdateUser}
+            isEditAvatarPopupOpen={isEditAvatarPopupOpen}
+            handleUpdateAvatar={handleUpdateAvatar}
+            isAddPlacePopupOpen={isAddPlacePopupOpen}
+            handleAddPlace={handleAddPlace}
+            isConfirmPopupOpen={isConfirmPopupOpen}
+            selectedCard={selectedCard}
+            isImagePopupOpen={isImagePopupOpen}
+          />
+        </Switch>
+        <Footer />
+
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
         />
 
-      </Switch>
-      <Footer />
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+        />
 
-      <EditProfilePopup
-        isOpen={isEditProfilePopupOpen}
-        onClose={closeAllPopups}
-        onUpdateUser={handleUpdateUser}
-      />
+        <AddPlacePopup
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+          onAddPlace={handleAddPlace}
+        />
 
-      <EditAvatarPopup
-        isOpen={isEditAvatarPopupOpen}
-        onClose={closeAllPopups}
-        onUpdateAvatar={handleUpdateAvatar}
-      />
+        <PopupWithForm
+          name={"delete"}
+          title={"Вы уверены?"}
+          isOpen={isConfirmPopupOpen}
+          onClose={closeAllPopups}
+          buttonText={"Да"}
+        />
 
-      <AddPlacePopup
-        isOpen={isAddPlacePopupOpen}
-        onClose={closeAllPopups}
-        onAddPlace={handleAddPlace}
-      />
+        <ImagePopup
+          card={selectedCard}
+          isOpen={isImagePopupOpen}
+          onClose={closeAllPopups}
+        />
 
-      <PopupWithForm
-        name={"delete"}
-        title={"Вы уверены?"}
-        isOpen={isConfirmPopupOpen}
-        onClose={closeAllPopups}
-        buttonText={"Да"}
-      />
-
-      <ImagePopup
-        card={selectedCard}
-        isOpen={isImagePopupOpen}
-        onClose={closeAllPopups}
-      />
-
-      <InfoTooltip
+        <InfoTooltip
           isOpen={isInfoTooltip.isOpen}
           onClose={closeAllPopups}
           error={isInfoTooltip.error}
         />
-
       </CurrentUserContext.Provider>
     </div>
   );
