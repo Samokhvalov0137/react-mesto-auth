@@ -1,0 +1,11 @@
+.header__profile {
+    display: flex;
+  } 
+
+
+  @media screen and (max-width: 620px) {
+    .header__profile {
+      flex-direction: column;
+      font-size: 12px;
+    }
+}

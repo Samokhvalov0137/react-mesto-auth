@@ -1,7 +1,6 @@
-.content{
-    margin: 0 auto;
+.content {
     display: flex;
     flex-direction: column;
     justify-content: center;
     min-height: 65vh;
-}
+  } 
